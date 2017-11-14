@@ -92,8 +92,8 @@ func main() {
 	var seriesIdsCounter int64 = 1
 	idsLabelsMap := make(map[string]int64)
 
-	mintString := flag.String("mint", "", "Min time")
-	maxtString := flag.String("maxt", "", "Max time")
+	mintString := flag.String("start", "", "Min time")
+	maxtString := flag.String("end", "", "Max time")
 	path := flag.String("db-path", "", "Path to tsdb directory")
 	flag.Var(&labelsFilter, "label-filter", "")
 
