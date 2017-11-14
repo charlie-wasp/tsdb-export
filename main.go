@@ -2,12 +2,12 @@ package main
 
 import (
 	"encoding/csv"
+	"errors"
 	"flag"
 	"fmt"
 	"os"
 	"strings"
 	"time"
-  "errors"
 
 	"github.com/go-kit/kit/log"
 	"github.com/prometheus/client_golang/prometheus"
@@ -52,11 +52,13 @@ func parseLabelsString(s string) map[string]string {
 }
 
 func connectToTsdb(path string) (db *tsdb.DB, err error) {
-  stat, err := os.Stat(path)
-  if err != nil { return nil, err }
-  if !stat.IsDir() {
-    return nil, errors.New(fmt.Sprintf("`%s` is not a directory", path))
-  }
+	stat, err := os.Stat(path)
+	if err != nil {
+		return nil, err
+	}
+	if !stat.IsDir() {
+		return nil, errors.New(fmt.Sprintf("`%s` is not a directory", path))
+	}
 
 	r := prometheus.NewRegistry()
 	logger := log.NewLogfmtLogger(os.Stdout)
@@ -110,7 +112,7 @@ func main() {
 
 	if err != nil {
 		fmt.Println(err)
-    os.Exit(1)
+		os.Exit(1)
 	}
 
 	mint, err := time.Parse(time.RFC3339, *mintString)
